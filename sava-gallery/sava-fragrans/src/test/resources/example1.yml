@@ -1,0 +1,8 @@
+key1: value1
+key2: value2
+key3s:
+  - 1
+  - 2
+key4:
+  sub4:
+    subsub4: value4

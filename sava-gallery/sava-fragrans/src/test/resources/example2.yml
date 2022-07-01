@@ -1,0 +1,8 @@
+schemaVersion: 1.0alpha
+
+# shared configuration items
+shared_configurations:
+  ECC_BASE_DIR: /opt/ibm/ecc
+  ECC_PRODUCT_LIST: CPE:ICN:CMIS:CSS
+  ECC_DEPLOY_ID: ecm_staging_deploy
+  ECC_TARGET_NAMESPACE: ECM_STAGING
