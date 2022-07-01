@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema xmlns="http://allenshi.io/schema/gracehaze"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:bean="http://www.springframework.org/schema/beans"
+            targetNamespace="http://allenshi.io/schema/gracehaze">
+
+    <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+
+    <xsd:element name="application" type="applicationType">
+    </xsd:element>
+    
+    <xsd:complexType name="applicationType">
+        <xsd:attribute name="name" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[ application name. ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="version" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[ application version. ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+</xsd:schema>

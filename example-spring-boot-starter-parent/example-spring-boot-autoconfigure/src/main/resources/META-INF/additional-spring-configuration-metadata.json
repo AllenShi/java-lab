@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "example.mail.host",
+      "type": "java.lang.String",
+      "description": "Email service host name."
+    },
+    {
+      "name": "example.mail.port",
+      "type": "java.lang.Integer",
+      "description": "Email service port number."
+    }
+  ]
+}
