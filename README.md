@@ -2,7 +2,7 @@
 
 Java & Java framework PoC
 
-Open multiple projects in Intellij
+## Open multiple projects in Intellij
 
 Most IDEs provide workspaces that contain multiple projects and thus enable you to work on multiple projects in one
 instance of the IDE. IntelliJ, which has become the de-facto standard for Java Devs, does not support workspaces. So, how
@@ -18,3 +18,11 @@ File > New > Module from Existing Sources… Select the project e.g. /local/proj
 build.gradle or another file that indicates the project model. Finish the wizard Now the module/project should be loaded
 in the top level of the root project folder. Depending on the project model IntelliJ should detect features and
 configure it accordingly.
+
+## Spring Boot Actuator
+
+java -jar -Dserver.port=9999 <example spring boot web app jar> 
+curl http://localhost:9999/actuator/info  
+curl http://localhost:9999/actuator/health
+curl http://localhost:9999/actuator/metrics | jq
+curl http://localhost:9999/actuator/threaddump
