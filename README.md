@@ -28,3 +28,9 @@ curl http://localhost:9999/actuator/health/readiness
 curl http://localhost:9999/actuator/health/liveness
 curl http://localhost:9999/actuator/metrics | jq
 curl http://localhost:9999/actuator/threaddump
+
+while true; do 
+curl -s -XPOST -H 'Content-Type: application/json' http://localhost:9999/tasks -d -'{
+"taskDesc": "my task1"
+}' ; 
+done

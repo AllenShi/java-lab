@@ -1,6 +1,7 @@
 package io.allenshi.ghaze;
 
 import io.allenshi.ghaze.dto.result.ConfigureInfoResult;
+import io.allenshi.ghaze.service.BatchService;
 import io.allenshi.ghaze.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,13 @@ public class ExampleSpringBootStarterTestWebApplication implements CommandLineRu
 
 	public static void main(String[] args) {
 		SpringApplication.run(ExampleSpringBootStarterTestWebApplication.class, args);
+
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				System.out.println("shutdown hook is called");
+			}
+		});
 	}
 
 	@Override
@@ -25,5 +33,4 @@ public class ExampleSpringBootStarterTestWebApplication implements CommandLineRu
 		System.out.format("The config info result, host is %s and port is %d\n", configureInfoResult.getHost(), configureInfoResult.getPort());
 		log.debug("The config info result, host is %s and port is %d\n", configureInfoResult.getHost(), configureInfoResult.getPort());
 	}
-
 }
