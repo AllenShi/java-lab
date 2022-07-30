@@ -24,5 +24,7 @@ configure it accordingly.
 java -jar -Dserver.port=9999 <example spring boot web app jar> 
 curl http://localhost:9999/actuator/info  
 curl http://localhost:9999/actuator/health
+curl http://localhost:9999/actuator/health/readiness
+curl http://localhost:9999/actuator/health/liveness
 curl http://localhost:9999/actuator/metrics | jq
 curl http://localhost:9999/actuator/threaddump
