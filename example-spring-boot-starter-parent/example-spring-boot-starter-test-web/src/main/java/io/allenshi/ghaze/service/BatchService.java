@@ -1,16 +1,18 @@
 package io.allenshi.ghaze.service;
 
 import io.allenshi.ghaze.dto.Task;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.*;
 
+@Slf4j
 public class BatchService implements DisposableBean {
-    private final ExecutorService executorService =
-            new ThreadPoolExecutor(2, 10,
+    private final ThreadPoolExecutor executorService =
+            new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), 10,
                     0L, TimeUnit.MILLISECONDS,
-                    new LinkedBlockingQueue<Runnable>(1000),
+                    new LinkedBlockingQueue<Runnable>(100),
                     new ThreadFactory() {
                         @Override
                         public Thread newThread(Runnable r) {
@@ -31,16 +33,13 @@ public class BatchService implements DisposableBean {
     }
 
     public void doBatchTask(final Task task) {
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("executed task..." + task.getTaskDesc());
+        executorService.execute(() -> {
+            log.info("executed task..." + task.getTaskDesc());
 
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         });
     }
@@ -51,7 +50,7 @@ public class BatchService implements DisposableBean {
     }
 
     private void shutdown() {
-        System.out.println("shutdown...");
+        log.info("BatchService tasks shutdown...");
         if (this.waitForTasksToCompleteOnShutdown) {
             this.executorService.shutdown();
         } else {
@@ -66,10 +65,19 @@ public class BatchService implements DisposableBean {
      */
     private void awaitTerminationIfNecessary() {
         if (this.awaitTerminationSeconds > 0) {
-            System.out.println("awaitTerminationSeconds: " + awaitTerminationSeconds);
+            log.info("BatchService awaitTerminationSeconds: " + awaitTerminationSeconds);
             try {
+                BlockingQueue<Runnable> queuedTasks = executorService.getQueue();
+                log.info("QueuedTask number before is {}, completed task count is {}, " +
+                                "active thread number is {}, total task number had ever been scheduled is {}, current thread number in pool is {}",
+                        queuedTasks.size(), executorService.getCompletedTaskCount(),
+                        executorService.getActiveCount(), executorService.getTaskCount(), executorService.getPoolSize());
                 this.executorService.awaitTermination(this.awaitTerminationSeconds, TimeUnit.SECONDS);
-                System.out.println("finish to wait...");
+                log.info("QueuedTask number after is {}, completed task count is {}, " +
+                                "active thread number is {}, total task number had ever been scheduled is {}, current thread number in pool is {}",
+                        queuedTasks.size(), executorService.getCompletedTaskCount(),
+                        executorService.getActiveCount(), executorService.getTaskCount(), executorService.getPoolSize());
+                log.info("BatchService finish to wait...");
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
