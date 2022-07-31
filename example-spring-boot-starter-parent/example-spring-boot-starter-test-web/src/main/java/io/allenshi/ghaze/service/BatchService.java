@@ -1,9 +1,9 @@
 package io.allenshi.ghaze.service;
 
 import io.allenshi.ghaze.dto.Task;
+import io.allenshi.ghaze.utils.ThreadFactoryWithNamePrefix;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.stereotype.Service;
 
 import java.util.concurrent.*;
 
@@ -13,12 +13,7 @@ public class BatchService implements DisposableBean {
             new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), 10,
                     0L, TimeUnit.MILLISECONDS,
                     new LinkedBlockingQueue<Runnable>(100),
-                    new ThreadFactory() {
-                        @Override
-                        public Thread newThread(Runnable r) {
-                            return new Thread(r, "cust-batch-thread");
-                        }
-                    });
+                    new ThreadFactoryWithNamePrefix("cust-batch-"));
 
 
     private boolean waitForTasksToCompleteOnShutdown = false;
